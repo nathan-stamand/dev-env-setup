@@ -15,25 +15,16 @@
         url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
         dest: "/tmp/ohmyzsh_install.sh"
         mode: '0755'  # Make it executable
-      register: download_script
 
-    # - name: Run Oh My Zsh installation script
-    #   ansible.builtin.shell: "/bin/bash /tmp/ohmyzsh_install.sh --unattended"
-    #   args:
-    #     creates: "/root/.oh-my-zsh"
-    #   when: download_script.changed
-    #   notify: Install Oh My Zsh
+    - name: Run Oh My Zsh installation script
+      ansible.builtin.command: "usr/bin/sh /tmp/ohmyzsh_install.sh --unattended"
+      args:
+        creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+      notify: Install Oh My Zsh
 
     - name: Change default shell to zsh
       become: true
       ansible.builtin.command:
-        cmd: chsh -s /bin/zsh {{ ansible_user_id }}
+        cmd: chsh -s $(which zsh) {{ ansible_user_id }}
       args:
         creates: "{{ ansible_env.HOME }}/.zshrc"
-
-  # Handler to run the installation script
-  handlers:
-    - name: Install Oh My Zsh
-      ansible.builtin.command: "/usr/bin/bash /tmp/ohmyzsh_install.sh --unattended"
-      args:
-        creates: "~/.oh-my-zsh"

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Check if the file is encrypted with ansible-vault
+if ! ansible-vault view --vault-password-file=vault_password vault &>/dev/null; then
+	echo "Error: vault is not encrypted with ansible-vault."
+	echo "Encrypting now..."
+	ansible-vault encrypt --vault-password-file=vault_password vault
+	echo "Okay, try not to be so sloppy next time."
+	exit 1
+fi

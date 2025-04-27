@@ -17,10 +17,9 @@
         mode: '0755'  # Make it executable
 
     - name: Run Oh My Zsh installation script
-      ansible.builtin.command: "usr/bin/sh /tmp/ohmyzsh_install.sh --unattended"
+      ansible.builtin.command: "/usr/bin/sh /tmp/ohmyzsh_install.sh --unattended"
       args:
         creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
-      notify: Install Oh My Zsh
 
     - name: Change default shell to zsh
       become: true

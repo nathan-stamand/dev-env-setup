@@ -64,12 +64,6 @@
         dest: "{{ ansible_env.HOME }}/.zshenv"
         state: link
 
-    - name: Set up .zshrc symlink
-      ansible.builtin.file:
-        src: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshrc"
-        dest: "{{ ansible_env.HOME }}/.zshrc"
-        state: link
-
     - name: Install Oh My Zsh
       ansible.builtin.get_url:
         url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
@@ -80,6 +74,12 @@
       ansible.builtin.command: "/usr/bin/sh /tmp/ohmyzsh_install.sh --unattended"
       args:
         creates: "/root/.oh-my-zsh"
+
+    - name: Set up .zshrc symlink
+      ansible.builtin.file:
+        src: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshrc"
+        dest: "{{ ansible_env.HOME }}/.zshrc"
+        state: link
 
     - name: Get current shell
       ansible.builtin.command: "getent passwd {{ ansible_user_id }}"

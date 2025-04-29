@@ -69,9 +69,16 @@
       args:
         creates: "/root/.oh-my-zsh"
 
-    - name: Change default shell to zsh
-      become: true
-      ansible.builtin.command:
-        cmd: chsh -s $(which zsh) {{ ansible_user_id }}
-      args:
-        creates: "{{ ansible_env.HOME }}/.zshrc"
+    - name: Get current shell
+      ansible.builtin.command: "getent passwd {{ ansible_user_id }}"
+      register: passwd_entry
+      changed_when: false
+
+    - name: Set current shell fact
+      ansible.builtin.set_fact:
+        current_shell: "{{ passwd_entry.stdout.split(':')[-1] }}"
+
+    - name: Change default shell to zsh if not already
+      ansible.builtin.command: "chsh -s /usr/bin/zsh {{ ansible_user_id }}"
+      when: current_shell != '/usr/bin/zsh'
+      changed_when: true

@@ -80,6 +80,7 @@
         src: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshrc"
         dest: "{{ ansible_env.HOME }}/.zshrc"
         state: link
+        force: true
 
     - name: Get current shell
       ansible.builtin.command: "getent passwd {{ ansible_user_id }}"

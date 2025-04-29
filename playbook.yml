@@ -15,6 +15,12 @@
         dest: "{{ ansible_env.HOME }}/dotfiles"
         version: main
 
+    - name: Pull down powerlevel10k
+      ansible.builtin.git:
+        repo: https://github.com/romkatv/powerlevel10k/
+        dest: "{{ ansible_env.HOME }}/powerlevel10k"
+        version: master
+
     - name: Ensure dotfiles scripts are executable
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/dotfiles/scripts"
@@ -22,10 +28,28 @@
         recurse: true
         state: directory
 
-    - name: Set up .zshrc symlink
+    - name: Set up .config/alacritty symlink
       ansible.builtin.file:
-        src: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshrc"
-        dest: "{{ ansible_env.HOME }}/.zshrc"
+        src: "{{ ansible_env.HOME }}/dotfiles/alacritty"
+        dest: "{{ ansible_env.HOME }}/.config/alacritty"
+        state: link
+
+    - name: Set up powerlevel10k config symlink
+      ansible.builtin.file:
+        src: "{{ ansible_env.HOME }}/dotfiles/.p10k.zsh"
+        dest: "{{ ansible_env.HOME }}/.p10k.zsh"
+        state: link
+
+    - name: Set up .config/tms symlink
+      ansible.builtin.file:
+        src: "{{ ansible_env.HOME }}/dotfiles/tms"
+        dest: "{{ ansible_env.HOME }}/.config/tms"
+        state: link
+
+    - name: Set up tmux.conf symlink
+      ansible.builtin.file:
+        src: "{{ ansible_env.HOME }}/dotfiles/.tmux.conf"
+        dest: "{{ ansible_env.HOME }}/.tmux.conf"
         state: link
 
     - name: Set up .zsh_functions symlink
@@ -40,22 +64,10 @@
         dest: "{{ ansible_env.HOME }}/.zshenv"
         state: link
 
-    - name: Set up .config/alacritty symlink
+    - name: Set up .zshrc symlink
       ansible.builtin.file:
-        src: "{{ ansible_env.HOME }}/dotfiles/alacritty"
-        dest: "{{ ansible_env.HOME }}/.config/alacritty"
-        state: link
-
-    - name: Set up tmux.conf symlink
-      ansible.builtin.file:
-        src: "{{ ansible_env.HOME }}/dotfiles/.tmux.conf"
-        dest: "{{ ansible_env.HOME }}/.tmux.conf"
-        state: link
-
-    - name: Set up .config/tms symlink
-      ansible.builtin.file:
-        src: "{{ ansible_env.HOME }}/dotfiles/tms"
-        dest: "{{ ansible_env.HOME }}/.config/tms"
+        src: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshrc"
+        dest: "{{ ansible_env.HOME }}/.zshrc"
         state: link
 
     - name: Install Oh My Zsh

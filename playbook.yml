@@ -79,6 +79,7 @@
         current_shell: "{{ passwd_entry.stdout.split(':')[-1] }}"
 
     - name: Change default shell to zsh if not already
+      become: true
       ansible.builtin.command: "chsh -s /usr/bin/zsh {{ ansible_user_id }}"
       when: current_shell != '/usr/bin/zsh'
       changed_when: true

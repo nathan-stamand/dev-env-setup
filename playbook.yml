@@ -14,12 +14,6 @@
         dest: "{{ ansible_env.HOME }}/dotfiles"
         version: main
 
-    - name: Ensure install script is executable
-      ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/dotfiles/install"
-        mode: '0755'
-        state: file
-
     - name: Ensure dotfiles scripts are executable
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/dotfiles/scripts"
@@ -29,37 +23,37 @@
 
     - name: Set up .zshrc symlink
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshrc"
+        src: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshrc"
         dest: "{{ ansible_env.HOME }}/.zshrc"
         state: link
 
     - name: Set up .zsh_functions symlink
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/dotfiles/zsh/.zsh_functions"
+        src: "{{ ansible_env.HOME }}/dotfiles/zsh/.zsh_functions"
         dest: "{{ ansible_env.HOME }}/.zsh_functions"
         state: link
 
     - name: Set up .zshenv symlink
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshenv"
+        src: "{{ ansible_env.HOME }}/dotfiles/zsh/.zshenv"
         dest: "{{ ansible_env.HOME }}/.zshenv"
         state: link
 
     - name: Set up .config/alacritty symlink
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/dotfiles/alacritty"
+        src: "{{ ansible_env.HOME }}/dotfiles/alacritty"
         dest: "{{ ansible_env.HOME }}/.config/alacritty"
         state: link
 
     - name: Set up tmux.conf symlink
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/dotfiles/.tmux.conf"
+        src: "{{ ansible_env.HOME }}/dotfiles/.tmux.conf"
         dest: "{{ ansible_env.HOME }}/.tmux.conf"
         state: link
 
     - name: Set up .config/tms symlink
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/dotfiles/tms"
+        src: "{{ ansible_env.HOME }}/dotfiles/tms"
         dest: "{{ ansible_env.HOME }}/.config/tms"
         state: link
 

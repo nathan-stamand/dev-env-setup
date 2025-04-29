@@ -1,8 +1,9 @@
 - name: Install Zsh and Oh My Zsh
   hosts: localhost
-  become: true
+  gather_facts: true
   tasks:
     - name: Install required packages
+      become: true
       ansible.builtin.package:
         name:
           - zsh
